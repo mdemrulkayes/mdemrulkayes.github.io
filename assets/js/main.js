@@ -5,10 +5,66 @@
     //===== Prealoder
     
     $(window).on('load', function(event) {
+
+        PopulateProjectArea();
+
         $('.preloader').delay(500).fadeOut(500);
     });
     
-    
+    //==== Populate projects
+    function PopulateProjectArea() {
+        var projectSource = '';
+        $.each(projects, function (index, project) {
+            projectSource += '<div class="col-lg-4 col-md-6 col-sm-6">'+
+            '<div class="single-work text-center mt-30">'+
+                '<div class="work-image">'+
+                    '<img src="'+project.DisplayImageUrl+'" alt="'+project.DisplayImageUrl+'">'+
+               '</div>'+
+                '<div class="work-overlay">'+
+                    '<div class="work-content">'+
+                        '<h3 class="work-title">'+project.Title+'</h3>'+
+                        '<ul>'+
+                            '<li><a class="image-popup" data-title="'+project.Title+'"><i class="lni-eye"></i></a></li>'+
+                        '</ul>'+
+                   '</div>'+
+                '</div>'+
+            '</div>'+
+        '</div>'
+        });
+
+        $('#projectArea').append(projectSource);
+    }
+
+    $('body').on('click','.image-popup',function () {
+        ModalPopup($(this).data('title'));
+    });
+
+    function ModalPopup(title) {
+        InitializeModalControl();
+        var projectDetails = projects.find(x => x.Title === title);
+        
+        $('#modal_projectImage').attr('src',projectDetails.ModalImageUrl);
+        $('#modal_porjectTitle').html(projectDetails.Title);
+        $('#modal_ProjectDescription').html(projectDetails.ProjectDetails);
+
+        var tagHtml = '';
+
+        $.each(projectDetails.ProjectTags,function(index,tag){
+            tagHtml += '<span class="badge badge-pill badge-secondary p-10 mr-10">'+tag+'</span>'
+        })
+
+        $('#tagArea').html(tagHtml);
+
+        $('#modalProjectDetails').modal('show');
+    }
+
+    function InitializeModalControl() {
+        $('#modal_projectImage').attr('src','#');
+        $('#modal_porjectTitle').html('');
+        $('#modal_ProjectDescription').html('');
+        $('#tagArea').html('');
+    }
+
     //===== Mobile Menu 
     
     $(".navbar-toggler").on('click', function() {
@@ -91,12 +147,16 @@
     
     //===== Magnific Popup
     
-    $('.image-popup').magnificPopup({
-      type: 'image',
-      gallery:{
-        enabled:true
-      }
-    });
+    // $('.image-popup').magnificPopup({
+    //   type: 'image',
+    //   gallery:{
+    //     enabled:true
+    //   }
+    // });
+
+    // $('body').on('click','.image-popup', function(){
+    //         $('#modalIMG').modal('show');
+    // });
     
     
     //===== Back to top
