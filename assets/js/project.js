@@ -58,8 +58,8 @@ var projects = [
         '<li>The owner will approve user requests and start the trip. If any problems occur in the middle of the trip then user/owner both can send a beacon request which will be send to their nearest all boats as a push notification so that others can help them.</li>'+
         '<li>Users can submit reviews for boat & owner and can complete their payment through the application.</li>'+
         '</ul>',
-        DisplayImageUrl: 'assets/images/work/_knarr/knarr_cover.jpg',
-        ModalImageUrl: 'assets/images/work/_knarr/knarr.jpg',
+        DisplayImageUrl: 'assets/images/work/knarr/knarr_cover.jpg',
+        ModalImageUrl: 'assets/images/work/knarr/knarr.jpg',
         CarsoulImages:[
             'assets/images/work/w-2.jpg',
             'assets/images/work/w-3.jpg',
