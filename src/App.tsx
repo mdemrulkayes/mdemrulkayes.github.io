@@ -1,4 +1,5 @@
 import Nav from './components/Nav'
+import GlobalFX from './components/GlobalFX'
 import ScrollIdentity from './components/ScrollIdentity'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -28,6 +29,7 @@ export default function App() {
         }}
       />
       <Nav />
+      <GlobalFX />
       <ScrollIdentity />
       <main className="relative z-10">
         <Hero />

@@ -4,7 +4,7 @@ import { cardGlow } from '../hooks/usePointerGlow'
 
 export default function Skills() {
   return (
-    <Section id="skills" eyebrow="skills" title="Tools of the trade" fx="cubes">
+    <Section id="skills" eyebrow="skills" title="Tools of the trade">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {skillGroups.map((group) => (
           <div

@@ -43,7 +43,7 @@ export default function UpworkReviews() {
   }, [count, paused])
 
   return (
-    <Section id="reviews" eyebrow="upwork reviews" title="What clients say" fx="bubbles">
+    <Section id="reviews" eyebrow="upwork reviews" title="What clients say">
       <div
         className="reveal"
         onMouseEnter={() => setPaused(true)}
