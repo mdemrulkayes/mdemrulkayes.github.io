@@ -14,8 +14,9 @@ export default function Section({ id, eyebrow, title, children, className = '' }
   return (
     <section id={id} ref={ref} className={`mx-auto max-w-5xl px-6 py-20 sm:py-24 ${className}`}>
       <div className="reveal">
-        <p className="font-mono text-sm text-vio">{`// ${eyebrow}`}</p>
+        <p className="font-mono text-sm font-medium text-vio">{`// ${eyebrow}`}</p>
         <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
+        <div className="line-grad mt-4 h-1 w-16 rounded-full" aria-hidden="true" />
       </div>
       <div className="mt-10">{children}</div>
     </section>

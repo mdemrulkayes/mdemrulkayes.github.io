@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b0b10" />
+    <meta name="theme-color" content="#0c0c14" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f7fd" />
+    <script>
+      // theme init before paint: saved preference wins, otherwise light
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
     <meta
       name="description"
       content="Emrul Kayes — Staff Software Engineer with 10 years in C#/.NET. Backend systems, APIs, microservice architecture, and DevOps for banking, payments, and trading platforms."

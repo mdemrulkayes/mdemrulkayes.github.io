@@ -21,7 +21,7 @@ export default function App() {
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            'radial-gradient(560px circle at var(--mx, 50%) var(--my, 30%), rgba(160, 140, 255, 0.06), transparent 65%)',
+            'radial-gradient(560px circle at var(--mx, 50%) var(--my, 30%), color-mix(in srgb, var(--g2) var(--glow-alpha), transparent), transparent 65%)',
         }}
       />
       <Nav />

@@ -13,9 +13,9 @@ export default function OpenSource() {
             target="_blank"
             rel="noreferrer"
             onMouseMove={cardGlow}
-            className="glow-card reveal group flex flex-col rounded-xl border border-line bg-panel p-5 transition-colors hover:border-vio/40"
+            className="glow-card reveal group flex flex-col rounded-2xl border border-line bg-panel p-5 transition-all hover:-translate-y-1 hover:border-vio/40 hover:shadow-lg hover:shadow-[color-mix(in_srgb,var(--g2)_12%,transparent)]"
           >
-            <h3 className="font-mono text-sm font-semibold text-fg group-hover:text-vio">
+            <h3 className="font-mono text-sm font-bold text-fg transition-colors group-hover:text-vio">
               {repo.name} <span aria-hidden="true">↗</span>
             </h3>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-mut">{repo.description}</p>

@@ -1,19 +1,18 @@
+import type { ReactNode } from 'react'
 import avatar from '../assets/avatar.webp'
-import { links } from '../data/profile'
 import { useReveal } from '../hooks/useReveal'
 
-/* syntax-highlight helpers for the C# card */
-import type { ReactNode } from 'react'
+/* syntax-highlight helpers for the C# card (card stays dark in both themes) */
 const K = ({ children }: { children: ReactNode }) => <span className="text-[#c0a8ff]">{children}</span>
 const T = ({ children }: { children: ReactNode }) => <span className="text-[#7dd3fc]">{children}</span>
 const S = ({ children }: { children: ReactNode }) => <span className="text-[#86efac]">{children}</span>
 const N = ({ children }: { children: ReactNode }) => <span className="text-[#f4bf75]">{children}</span>
-const P = ({ children }: { children: ReactNode }) => <span className="text-mut">{children}</span>
+const P = ({ children }: { children: ReactNode }) => <span className="text-[#8a8aa3]">{children}</span>
 
 const stats = [
   { value: '10+', label: 'years shipping .NET' },
   { value: '6', label: 'fintech & payment systems' },
-  { value: '6M+', label: 'yearly users, current platform' },
+  { value: '5', label: 'finance domains served' },
 ]
 
 export default function Hero() {
@@ -21,24 +20,38 @@ export default function Hero() {
   return (
     <section id="top" ref={ref} className="relative overflow-hidden">
       <div className="dot-grid absolute inset-0" aria-hidden="true" />
+      <div className="blob top-[-80px] left-[-120px] h-96 w-96 bg-[var(--g1)]" aria-hidden="true" />
+      <div className="blob top-40 right-[-140px] h-[26rem] w-[26rem] bg-[var(--g3)]" aria-hidden="true" />
+
       <div className="relative mx-auto grid max-w-5xl gap-12 px-6 pt-32 pb-20 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:pt-40 lg:pb-28">
         <div className="reveal">
-          <div className="flex items-center gap-4">
-            <img
-              src={avatar}
-              alt="Emrul Kayes"
-              width={88}
-              height={88}
-              className="size-20 rounded-full border-2 border-vio/60 object-cover shadow-[0_0_40px_-8px] shadow-vio/40 sm:size-22"
-            />
-            <p className="font-mono text-sm text-vio">// Hi, I&apos;m</p>
-          </div>
-          <h1 className="mt-5 text-4xl font-extrabold tracking-tight sm:text-6xl">Emrul Kayes</h1>
-          <p className="mt-3 text-xl font-semibold text-mut sm:text-2xl">
-            Staff Software Engineer — <span className="text-fg">C# / .NET backend</span>,
-            architecture &amp; DevOps
+          <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-panel px-4 py-1.5 text-xs font-medium text-mut shadow-sm">
+            <span className="pulse-dot size-2 rounded-full bg-emerald-500" aria-hidden="true" />
+            Open to opportunities — full-time, consulting &amp; freelance
           </p>
-          <p className="mt-5 max-w-xl leading-relaxed text-mut">
+
+          <div className="mt-7 flex items-center gap-5">
+            <span className="bg-grad inline-block shrink-0 rounded-full p-[3px] shadow-lg shadow-[color-mix(in_srgb,var(--g2)_30%,transparent)]">
+              <img
+                src={avatar}
+                alt="Emrul Kayes"
+                width={96}
+                height={96}
+                className="size-20 rounded-full object-cover sm:size-24"
+              />
+            </span>
+            <div>
+              <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
+                <span className="text-grad">Emrul Kayes</span>
+              </h1>
+              <p className="mt-2 text-lg font-semibold text-mut sm:text-xl">Staff Software Engineer</p>
+            </div>
+          </div>
+
+          <p className="mt-6 text-xl font-semibold sm:text-2xl">
+            C# / .NET backend, <span className="text-grad">architecture</span> &amp; DevOps
+          </p>
+          <p className="mt-4 max-w-xl leading-relaxed text-mut">
             Ten years designing and running the systems behind banking, payments, and trading —
             APIs, microservices, and the databases that keep them honest.
           </p>
@@ -46,23 +59,15 @@ export default function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#projects"
-              className="rounded-md bg-vio px-5 py-2.5 font-mono text-sm font-semibold text-ink transition-colors hover:bg-vio/85"
+              className="bg-grad rounded-lg px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[color-mix(in_srgb,var(--g2)_35%,transparent)] transition-transform hover:-translate-y-0.5"
             >
-              view projects
+              View Projects
             </a>
             <a
               href="#contact"
-              className="rounded-md border border-line px-5 py-2.5 font-mono text-sm text-fg transition-colors hover:border-vio/60 hover:text-vio"
+              className="rounded-lg border border-line bg-panel px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-vio/60 hover:text-vio"
             >
-              get in touch
-            </a>
-            <a
-              href={links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-md px-3 py-2.5 font-mono text-sm text-mut transition-colors hover:text-vio"
-            >
-              github ↗
+              Get in Touch
             </a>
           </div>
 
@@ -70,7 +75,7 @@ export default function Hero() {
             {stats.map(({ value, label }) => (
               <div key={label}>
                 <dt className="sr-only">{label}</dt>
-                <dd className="font-mono text-2xl font-bold text-vio">{value}</dd>
+                <dd className="text-grad font-mono text-2xl font-bold">{value}</dd>
                 <dd className="mt-0.5 text-xs text-mut">{label}</dd>
               </div>
             ))}
@@ -78,14 +83,14 @@ export default function Hero() {
         </div>
 
         <div className="reveal">
-          <div className="glow-card rounded-xl border border-line bg-panel shadow-2xl shadow-black/40">
-            <div className="flex items-center gap-2 border-b border-line px-4 py-3">
+          <div className="glow-card rounded-2xl border border-[#252538] bg-[#13131e] shadow-2xl shadow-black/30">
+            <div className="flex items-center gap-2 border-b border-[#252538] px-4 py-3">
               <span className="size-3 rounded-full bg-[#ff5f57]" />
               <span className="size-3 rounded-full bg-[#febc2e]" />
               <span className="size-3 rounded-full bg-[#28c840]" />
-              <span className="ml-3 font-mono text-xs text-mut">Engineer.cs</span>
+              <span className="ml-3 font-mono text-xs text-[#8a8aa3]">Engineer.cs</span>
             </div>
-            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7">
+            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-[#e8e8f4]">
               <code>
                 <K>var</K> engineer <P>=</P> <K>new</K> <T>StaffEngineer</T>
                 {'\n'}
@@ -116,7 +121,7 @@ export default function Hero() {
                 <P>|</P> <T>DDD</T>
                 <P>,</P>
                 {'\n'}
-                {'    '}Contact      <P>=</P> <S>"{links.email}"</S>
+                {'    '}OpenTo       <P>=</P> <T>FullTime</T> <P>|</P> <T>Consulting</T>
                 {'\n'}
                 <P>{'};'}</P>
                 <span className="caret" aria-hidden="true" />
