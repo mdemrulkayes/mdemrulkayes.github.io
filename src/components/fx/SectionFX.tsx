@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { skillGroups } from '../../data/profile'
 
 export type FXVariant =
   | 'network'
@@ -369,21 +370,13 @@ function Wave({ colors }: SceneProps) {
 
 /* ---------- paper planes towing tech-stack banners ---------- */
 
+/* every skill from the skills section — planes swap banners on each fly-by until all are shown */
 const BANNER_LABELS = [
-  'C#',
-  '.NET',
-  'ASP.NET Core',
-  'Blazor',
-  'EF Core',
-  'SignalR',
-  'Azure',
-  'PostgreSQL',
-  'Kafka',
-  'Redis',
-  'Microservices',
-  'DDD',
-  'OAuth2',
-  'CI/CD',
+  ...new Set(
+    skillGroups
+      .flatMap((group) => group.skills)
+      .map((skill) => (skill.startsWith('Azure (') ? 'Azure' : skill)),
+  ),
 ]
 
 const bannerCache = new Map<string, THREE.CanvasTexture>()
@@ -402,7 +395,13 @@ function bannerTexture(label: string, color: string) {
   ctx.roundRect(6, 6, 500, 116, 26)
   ctx.stroke()
   ctx.globalAlpha = 1
-  ctx.font = "700 58px 'JetBrains Mono Variable', Consolas, monospace"
+  let size = 58
+  ctx.font = `700 ${size}px 'JetBrains Mono Variable', Consolas, monospace`
+  const width = ctx.measureText(label).width
+  if (width > 460) {
+    size = Math.max(24, Math.floor((size * 460) / width))
+    ctx.font = `700 ${size}px 'JetBrains Mono Variable', Consolas, monospace`
+  }
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillStyle = color
@@ -431,7 +430,8 @@ const SPAN = 24
 const TRAIL = 36
 
 type PlaneCfg = {
-  label: string
+  startIndex: number
+  stride: number
   color: string
   baseY: number
   z: number
@@ -444,9 +444,14 @@ type PlaneCfg = {
 function PaperPlane({ cfg, contrail, bg }: { cfg: PlaneCfg; contrail: boolean; bg: string }) {
   const group = useRef<THREE.Group>(null)
   const banner = useRef<THREE.Mesh>(null)
+  const bannerMaterial = useRef<THREE.MeshBasicMaterial>(null)
+  const labelIndex = useRef(cfg.startIndex)
   const target = useMemo(() => new THREE.Vector3(), [])
   const tailWorld = useMemo(() => new THREE.Vector3(), [])
-  const texture = useMemo(() => bannerTexture(cfg.label, cfg.color), [cfg])
+  const texture = useMemo(
+    () => bannerTexture(BANNER_LABELS[cfg.startIndex % BANNER_LABELS.length], cfg.color),
+    [cfg],
+  )
   const trailStarted = useRef(false)
 
   const trailLine = useMemo(() => {
@@ -480,6 +485,13 @@ function PaperPlane({ cfg, contrail, bg }: { cfg: PlaneCfg; contrail: boolean; b
     target.set(x + 0.6, flightY(t + 0.25 / cfg.speed), cfg.z)
     g.lookAt(target)
     if (banner.current) banner.current.rotation.x = Math.sin(t * 3.5) * 0.07
+
+    // every fly-by, tow the next skill banner
+    if (wrapped && bannerMaterial.current) {
+      labelIndex.current = (labelIndex.current + cfg.stride) % BANNER_LABELS.length
+      bannerMaterial.current.map = bannerTexture(BANNER_LABELS[labelIndex.current], cfg.color)
+      bannerMaterial.current.needsUpdate = true
+    }
 
     if (trailLine) {
       g.updateMatrixWorld()
@@ -517,7 +529,13 @@ function PaperPlane({ cfg, contrail, bg }: { cfg: PlaneCfg; contrail: boolean; b
         </mesh>
         <mesh ref={banner} position={[0, 0.05, -3.9]} rotation={[0, -Math.PI / 2, 0]}>
           <planeGeometry args={[2.9, 0.72]} />
-          <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} depthWrite={false} />
+          <meshBasicMaterial
+            ref={bannerMaterial}
+            map={texture}
+            transparent
+            side={THREE.DoubleSide}
+            depthWrite={false}
+          />
         </mesh>
       </group>
       {trailLine && <primitive object={trailLine} />}
@@ -527,27 +545,28 @@ function PaperPlane({ cfg, contrail, bg }: { cfg: PlaneCfg; contrail: boolean; b
 
 function PaperPlanes({ colors, isDark, dense }: SceneProps & { dense: boolean }) {
   const bg = isDark ? '#0c0c14' : '#f7f7fd'
-  const count = dense ? 6 : 4
+  const count = dense ? 9 : 5
   const cfgs = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => ({
-        label: BANNER_LABELS[(i * 3 + (dense ? 0 : 1)) % BANNER_LABELS.length],
+        startIndex: i,
+        stride: count,
         color: colors[i % 3],
-        baseY: -2.4 + (i * 5.2) / Math.max(count - 1, 1) + (i % 2) * 0.3,
-        z: -2.5 + (i % 3) * 1.1,
-        speed: 1.1 + ((i * 7) % 5) * 0.22,
+        baseY: -2.6 + (i * 5.6) / Math.max(count - 1, 1) + (i % 2) * 0.25,
+        z: -2.8 + (i % 4) * 0.95,
+        speed: 1.0 + ((i * 7) % 6) * 0.2,
         phase: i * 1.9,
-        scale: 0.42 + (i % 3) * 0.14,
-        offset: i * 4.3,
+        scale: 0.38 + (i % 3) * 0.13,
+        offset: i * 3.2,
       })),
-    [colors, count, dense],
+    [colors, count],
   )
   return (
     <>
       <ambientLight intensity={0.85} />
       <directionalLight position={[4, 6, 5]} intensity={1.2} />
       {cfgs.map((cfg) => (
-        <PaperPlane key={cfg.label} cfg={cfg} contrail={dense} bg={bg} />
+        <PaperPlane key={cfg.startIndex} cfg={cfg} contrail={dense} bg={bg} />
       ))}
       <Stream colors={colors} isDark={isDark} />
     </>

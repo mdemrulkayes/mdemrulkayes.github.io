@@ -11,6 +11,7 @@ import UpworkReviews from './components/UpworkReviews'
 import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import BackToTop from './components/BackToTop'
 import { usePointerGlow } from './hooks/usePointerGlow'
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </>
   )
 }

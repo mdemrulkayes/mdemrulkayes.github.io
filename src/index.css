@@ -180,6 +180,20 @@ body {
   }
 }
 
+/* back-to-top plane bobbing */
+.float-bob {
+  animation: float-y 3s ease-in-out infinite;
+}
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -190,7 +204,8 @@ body {
     transition: none;
   }
   .caret,
-  .pulse-dot::after {
+  .pulse-dot::after,
+  .float-bob {
     animation: none;
   }
   .glow-card::before {
