@@ -114,9 +114,6 @@ export default function Hero() {
                 {'\n'}
                 {'    '}Architecture <P>=</P> <T>Microservices</T> <P>|</P> <T>EventDriven</T>{' '}
                 <P>|</P> <T>DDD</T>
-                <P>,</P>
-                {'\n'}
-                {'    '}OpenTo       <P>=</P> <T>Consulting</T>
                 {'\n'}
                 <P>{'};'}</P>
                 <span className="caret" aria-hidden="true" />
