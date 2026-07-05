@@ -1,4 +1,5 @@
 import Nav from './components/Nav'
+import ScrollIdentity from './components/ScrollIdentity'
 import Hero from './components/Hero'
 import About from './components/About'
 import Skills from './components/Skills'
@@ -26,6 +27,7 @@ export default function App() {
         }}
       />
       <Nav />
+      <ScrollIdentity />
       <main className="relative z-10">
         <Hero />
         <About />
