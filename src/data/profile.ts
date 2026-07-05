@@ -179,11 +179,67 @@ export const projects = [
     stack: ['ASP.NET Core', 'EF', 'MSSQL', 'Angular', 'Complex SQL'],
   },
   {
+    name: 'Portfolio Management & Trade Online',
+    context: 'Stock portfolio & online trading · Dimik',
+    description:
+      'The online face of a broker house — where stock-market customers manage their portfolios and trade over the web. Customers pull portfolio, trade, daily-transaction, and gain/loss reports, send deposit and withdrawal requests, and submit instrument buy/sell orders straight to an online trader. A customizable instrument board shows live market prices for every listed instrument, arranged the way each customer wants it.',
+    stack: ['ASP.NET MVC', '.NET Framework', 'C#', 'MSSQL', 'Database Design', 'jQuery', 'Bootstrap', 'IIS'],
+  },
+  {
     name: 'BASE',
     context: 'Stock trading & broker-house suite · Dimik',
     description:
       'A complete broker-house platform for the Dhaka stock market: real-time online trading for clients plus stock-market, finance, and HRM management for the house — across both web and desktop applications. The centerpiece is a live market board over SignalR showing real-time price movements, with portfolio deposits, withdrawals, and trade execution flowing through an ASP.NET MVC backend tuned for market-hours load.',
     stack: ['ASP.NET MVC', 'SignalR', 'ADO.NET', 'EF', 'MSSQL'],
+  },
+]
+
+export const upworkReviews = [
+  {
+    project: '.NET Blazor affiliate marketing web application',
+    period: 'Apr 2021 — Dec 2021',
+    rating: 4.7,
+    endorsements: [] as string[],
+    quotes: [
+      'Emrul made great programming and functionality decisions and showed initiative on jumping in and finding technical solutions to problems we were having. Efficient with his work and offered good advice. We were very happy with him and are already using him on another project.',
+    ],
+  },
+  {
+    project: 'Developers needed for creating Blazor Server application',
+    period: 'Mar 2021 — Apr 2021',
+    rating: 5.0,
+    endorsements: [] as string[],
+    quotes: [
+      'Emrul has great coding skills, takes initiative when required. Follows instructions and has a great work ethic. It was great working with him.',
+    ],
+  },
+  {
+    project: 'ASP.NET Core Blazor website with payment gateway (WASM & Server)',
+    period: 'Oct 2020 — Nov 2020',
+    rating: 5.0,
+    endorsements: [] as string[],
+    quotes: [
+      'My project was in a new technology that is changing dynamically with time. He had knowledge about the subject. Emrul is a dedicated and hardworking freelancer! Went above and beyond to meet the expectations and completed the project sooner than anticipated. I would highly recommend him and will definitely hire him again in the future. Thank you for all the hard work!',
+    ],
+  },
+  {
+    project: 'C# / Node.js developer — image manipulation & Facebook/Google Ads API',
+    period: 'Sep 2020 — Feb 2021',
+    rating: 5.0,
+    endorsements: ['Clear Communicator', 'Reliable', 'Committed to Quality'],
+    quotes: [
+      "Emrul is fast, fluent, and extremely capable. You won't regret hiring him. He delivered to tight deadlines, and was great at communicating the whole way through. Highly recommended.",
+      "Emrul is diligent, forward-thinking, and efficient. He's a delight to work with, and has brought great insight and value to our projects. We plan to continue working with him in the future! If you're looking for someone with great C#, HTML, CSS, JS, and SQL skills (specifically in .NET Core), Emrul is your man.",
+    ],
+  },
+  {
+    project: 'Backend C# and APIs',
+    period: 'Jul 2020 — Aug 2020',
+    rating: 5.0,
+    endorsements: [] as string[],
+    quotes: [
+      'Very reliable developer and his responses are very quick. He completed the tasks as proposed. I will certainly hire Emrul again soon.',
+    ],
   },
 ]
 

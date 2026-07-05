@@ -25,12 +25,7 @@ export default function Hero() {
 
       <div className="relative mx-auto grid max-w-5xl gap-12 px-6 pt-32 pb-20 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:pt-40 lg:pb-28">
         <div className="reveal">
-          <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-panel px-4 py-1.5 text-xs font-medium text-mut shadow-sm">
-            <span className="pulse-dot size-2 rounded-full bg-emerald-500" aria-hidden="true" />
-            Open to opportunities — full-time, consulting &amp; freelance
-          </p>
-
-          <div className="mt-7 flex items-center gap-5">
+          <div className="flex items-center gap-5">
             <span className="bg-grad inline-block shrink-0 rounded-full p-[3px] shadow-lg shadow-[color-mix(in_srgb,var(--g2)_30%,transparent)]">
               <img
                 src={avatar}
