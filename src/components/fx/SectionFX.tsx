@@ -549,7 +549,7 @@ function PaperPlanes({ colors, isDark, dense }: SceneProps & { dense: boolean })
       {cfgs.map((cfg) => (
         <PaperPlane key={cfg.label} cfg={cfg} contrail={dense} bg={bg} />
       ))}
-      {!dense && <Stream colors={colors} isDark={isDark} />}
+      <Stream colors={colors} isDark={isDark} />
     </>
   )
 }
