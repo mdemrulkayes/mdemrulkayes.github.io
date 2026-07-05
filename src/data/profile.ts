@@ -35,7 +35,7 @@ export const skillGroups = [
       "Domain-Driven Design",
       "Event-Driven Design",
       "CQRS / MediatR",
-      "Vertical Slice Architecture",
+      "Vertical Slice",
       "TDD",
     ],
   },
