@@ -243,6 +243,19 @@ export const upworkReviews = [
   },
 ]
 
+export const education = [
+  {
+    degree: 'M.Sc. in Computer Science',
+    institution: 'Jahangirnagar University',
+    location: 'Dhaka, Bangladesh',
+  },
+  {
+    degree: 'B.Sc. in Computer Science & Engineering',
+    institution: 'Daffodil International University',
+    location: 'Dhaka, Bangladesh',
+  },
+]
+
 export const openSource = [
   {
     name: 'Quizzer',

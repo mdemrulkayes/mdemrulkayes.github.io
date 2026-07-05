@@ -7,6 +7,7 @@ import Experience from './components/Experience'
 import Projects from './components/Projects'
 import OpenSource from './components/OpenSource'
 import UpworkReviews from './components/UpworkReviews'
+import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import { usePointerGlow } from './hooks/usePointerGlow'
@@ -36,6 +37,7 @@ export default function App() {
         <Projects />
         <OpenSource />
         <UpworkReviews />
+        <Education />
         <Contact />
       </main>
       <Footer />
