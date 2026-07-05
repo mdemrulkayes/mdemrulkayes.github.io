@@ -4,7 +4,7 @@ import { cardGlow } from '../hooks/usePointerGlow'
 
 export default function Education() {
   return (
-    <Section id="education" eyebrow="education" title="Academic background">
+    <Section id="education" eyebrow="education" title="Academic background" fx="constellation">
       <div className="grid gap-4 sm:grid-cols-2">
         {education.map((item) => (
           <div

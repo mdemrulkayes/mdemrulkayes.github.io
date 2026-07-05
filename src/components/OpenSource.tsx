@@ -4,7 +4,7 @@ import { cardGlow } from '../hooks/usePointerGlow'
 
 export default function OpenSource() {
   return (
-    <Section id="open-source" eyebrow="open source" title="Public experiments">
+    <Section id="open-source" eyebrow="open source" title="Public experiments" fx="orbit">
       <div className="grid gap-4 sm:grid-cols-3">
         {openSource.map((repo) => (
           <a

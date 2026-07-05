@@ -9,7 +9,7 @@ const channels = [
 
 export default function Contact() {
   return (
-    <Section id="contact" eyebrow="contact" title="Let's build something reliable." className="pb-28">
+    <Section id="contact" eyebrow="contact" title="Let's build something reliable." className="pb-28" fx="wave">
       <div className="glow-card reveal rounded-2xl border border-line bg-panel p-8 sm:p-10">
         <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-panel-2 px-4 py-1.5 text-xs font-medium text-mut">
           <span className="pulse-dot size-2 rounded-full bg-emerald-500" aria-hidden="true" />

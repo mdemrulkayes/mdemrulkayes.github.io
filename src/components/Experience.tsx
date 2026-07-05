@@ -3,7 +3,7 @@ import { experience } from '../data/profile'
 
 export default function Experience() {
   return (
-    <Section id="experience" eyebrow="experience" title="A decade in production">
+    <Section id="experience" eyebrow="experience" title="A decade in production" fx="stream">
       <ol className="relative space-y-12 pl-8">
         <div
           className="absolute top-1 bottom-1 left-[5px] w-px bg-gradient-to-b from-[var(--g1)] via-[var(--g2)] to-transparent"
