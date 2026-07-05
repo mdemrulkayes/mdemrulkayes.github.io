@@ -20,7 +20,7 @@ export default function Hero() {
   const ref = useReveal<HTMLElement>()
   return (
     <section id="top" ref={ref} className="relative overflow-hidden">
-      <FXLayer variant="network" className="opacity-70 dark:opacity-80" />
+      <FXLayer variant="planes" className="opacity-70 dark:opacity-80" />
       <div className="blob top-[-80px] left-[-120px] h-96 w-96 bg-[var(--g1)]" aria-hidden="true" />
       <div className="blob top-40 right-[-140px] h-[26rem] w-[26rem] bg-[var(--g3)]" aria-hidden="true" />
 

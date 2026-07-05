@@ -12,8 +12,10 @@ export type FXVariant =
   | 'bubbles'
   | 'constellation'
   | 'wave'
+  | 'planes'
+  | 'planeStream'
 
-type SceneProps = { colors: string[] }
+type SceneProps = { colors: string[]; isDark: boolean }
 
 function useIsDark() {
   const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'))
@@ -365,6 +367,196 @@ function Wave({ colors }: SceneProps) {
   )
 }
 
+/* ---------- paper planes towing tech-stack banners ---------- */
+
+const BANNER_LABELS = [
+  'C#',
+  '.NET',
+  'ASP.NET Core',
+  'Blazor',
+  'EF Core',
+  'SignalR',
+  'Azure',
+  'PostgreSQL',
+  'Kafka',
+  'Redis',
+  'Microservices',
+  'DDD',
+  'OAuth2',
+  'CI/CD',
+]
+
+const bannerCache = new Map<string, THREE.CanvasTexture>()
+function bannerTexture(label: string, color: string) {
+  const key = `${label}|${color}`
+  const cached = bannerCache.get(key)
+  if (cached) return cached
+  const canvas = document.createElement('canvas')
+  canvas.width = 512
+  canvas.height = 128
+  const ctx = canvas.getContext('2d')!
+  ctx.strokeStyle = color
+  ctx.globalAlpha = 0.55
+  ctx.lineWidth = 5
+  ctx.beginPath()
+  ctx.roundRect(6, 6, 500, 116, 26)
+  ctx.stroke()
+  ctx.globalAlpha = 1
+  ctx.font = "700 58px 'JetBrains Mono Variable', Consolas, monospace"
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = color
+  ctx.fillText(label, 256, 70)
+  const texture = new THREE.CanvasTexture(canvas)
+  texture.anisotropy = 4
+  bannerCache.set(key, texture)
+  return texture
+}
+
+/* folded paper dart, nose along +Z */
+const PLANE_GEOMETRY = (() => {
+  const geometry = new THREE.BufferGeometry()
+  // prettier-ignore
+  const vertices = new Float32Array([
+    0, 0, 1.2,   0, 0.18, -1,   0.85, -0.14, -1, // left wing
+    0, 0, 1.2,   -0.85, -0.14, -1,   0, 0.18, -1, // right wing
+    0, 0, 1.2,   0, -0.42, -1,   0, 0.18, -1, // keel
+  ])
+  geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+  geometry.computeVertexNormals()
+  return geometry
+})()
+
+const SPAN = 24
+const TRAIL = 36
+
+type PlaneCfg = {
+  label: string
+  color: string
+  baseY: number
+  z: number
+  speed: number
+  phase: number
+  scale: number
+  offset: number
+}
+
+function PaperPlane({ cfg, contrail, bg }: { cfg: PlaneCfg; contrail: boolean; bg: string }) {
+  const group = useRef<THREE.Group>(null)
+  const banner = useRef<THREE.Mesh>(null)
+  const target = useMemo(() => new THREE.Vector3(), [])
+  const tailWorld = useMemo(() => new THREE.Vector3(), [])
+  const texture = useMemo(() => bannerTexture(cfg.label, cfg.color), [cfg])
+  const trailStarted = useRef(false)
+
+  const trailLine = useMemo(() => {
+    if (!contrail) return null
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(TRAIL * 3), 3))
+    const colors = new Float32Array(TRAIL * 3)
+    const from = new THREE.Color(cfg.color)
+    const to = new THREE.Color(bg)
+    const mixed = new THREE.Color()
+    for (let i = 0; i < TRAIL; i++) {
+      mixed.copy(from).lerp(to, i / (TRAIL - 1))
+      colors.set([mixed.r, mixed.g, mixed.b], i * 3)
+    }
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    const material = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.5 })
+    const line = new THREE.Line(geometry, material)
+    line.frustumCulled = false
+    return line
+  }, [contrail, cfg, bg])
+
+  const flightY = (t: number) => cfg.baseY + Math.sin(t * 0.6 + cfg.phase) * 0.8
+
+  useFrame(({ clock }) => {
+    const g = group.current
+    if (!g) return
+    const t = clock.elapsedTime + cfg.offset
+    const x = ((t * cfg.speed) % SPAN) - SPAN / 2
+    const wrapped = x < g.position.x - SPAN / 2
+    g.position.set(x, flightY(t), cfg.z)
+    target.set(x + 0.6, flightY(t + 0.25 / cfg.speed), cfg.z)
+    g.lookAt(target)
+    if (banner.current) banner.current.rotation.x = Math.sin(t * 3.5) * 0.07
+
+    if (trailLine) {
+      g.updateMatrixWorld()
+      g.localToWorld(tailWorld.set(0, -0.05, -1.2))
+      const positions = trailLine.geometry.attributes.position as THREE.BufferAttribute
+      const array = positions.array as Float32Array
+      if (wrapped || !trailStarted.current) {
+        for (let i = 0; i < TRAIL; i++) array.set([tailWorld.x, tailWorld.y, tailWorld.z], i * 3)
+        trailStarted.current = true
+      } else {
+        array.copyWithin(3, 0, TRAIL * 3 - 3)
+        array.set([tailWorld.x, tailWorld.y, tailWorld.z], 0)
+      }
+      positions.needsUpdate = true
+    }
+  })
+
+  return (
+    <>
+      <group ref={group} scale={cfg.scale}>
+        <mesh geometry={PLANE_GEOMETRY}>
+          <meshStandardMaterial
+            color={cfg.color}
+            flatShading
+            side={THREE.DoubleSide}
+            roughness={0.55}
+            metalness={0.15}
+            transparent
+            opacity={0.95}
+          />
+        </mesh>
+        <mesh position={[0, 0.02, -1.85]}>
+          <boxGeometry args={[0.015, 0.015, 1.3]} />
+          <meshBasicMaterial color={cfg.color} transparent opacity={0.35} />
+        </mesh>
+        <mesh ref={banner} position={[0, 0.05, -3.9]} rotation={[0, -Math.PI / 2, 0]}>
+          <planeGeometry args={[2.9, 0.72]} />
+          <meshBasicMaterial map={texture} transparent side={THREE.DoubleSide} depthWrite={false} />
+        </mesh>
+      </group>
+      {trailLine && <primitive object={trailLine} />}
+    </>
+  )
+}
+
+function PaperPlanes({ colors, isDark, dense }: SceneProps & { dense: boolean }) {
+  const bg = isDark ? '#0c0c14' : '#f7f7fd'
+  const count = dense ? 6 : 4
+  const cfgs = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => ({
+        label: BANNER_LABELS[(i * 3 + (dense ? 0 : 1)) % BANNER_LABELS.length],
+        color: colors[i % 3],
+        baseY: -2.4 + (i * 5.2) / Math.max(count - 1, 1) + (i % 2) * 0.3,
+        z: -2.5 + (i % 3) * 1.1,
+        speed: 1.1 + ((i * 7) % 5) * 0.22,
+        phase: i * 1.9,
+        scale: 0.42 + (i % 3) * 0.14,
+        offset: i * 4.3,
+      })),
+    [colors, count, dense],
+  )
+  return (
+    <>
+      <ambientLight intensity={0.85} />
+      <directionalLight position={[4, 6, 5]} intensity={1.2} />
+      {cfgs.map((cfg) => (
+        <PaperPlane key={cfg.label} cfg={cfg} contrail={dense} bg={bg} />
+      ))}
+      {!dense && <Stream colors={colors} isDark={isDark} />}
+    </>
+  )
+}
+
+const Planes = (props: SceneProps) => <PaperPlanes {...props} dense />
+const PlaneStream = (props: SceneProps) => <PaperPlanes {...props} dense={false} />
+
 const scenes: Record<FXVariant, (props: SceneProps) => React.JSX.Element> = {
   network: Network,
   torus: Torus,
@@ -375,6 +567,8 @@ const scenes: Record<FXVariant, (props: SceneProps) => React.JSX.Element> = {
   bubbles: Bubbles,
   constellation: Constellation,
   wave: Wave,
+  planes: Planes,
+  planeStream: PlaneStream,
 }
 
 export default function SectionFX({ variant }: { variant: FXVariant }) {
@@ -391,7 +585,7 @@ export default function SectionFX({ variant }: { variant: FXVariant }) {
       gl={{ alpha: true, antialias: true, powerPreference: 'low-power' }}
       style={{ width: '100%', height: '100%' }}
     >
-      <Scene colors={colors} />
+      <Scene colors={colors} isDark={dark} />
     </Canvas>
   )
 }

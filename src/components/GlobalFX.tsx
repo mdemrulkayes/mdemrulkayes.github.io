@@ -30,7 +30,7 @@ export default function GlobalFX() {
     >
       {mounted && !reduced && (
         <Suspense fallback={null}>
-          <SectionFX variant="stream" />
+          <SectionFX variant="planeStream" />
         </Suspense>
       )}
     </div>
