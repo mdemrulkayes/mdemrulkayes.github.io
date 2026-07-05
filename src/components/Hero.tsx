@@ -116,7 +116,7 @@ export default function Hero() {
                 <P>|</P> <T>DDD</T>
                 <P>,</P>
                 {'\n'}
-                {'    '}OpenTo       <P>=</P> <T>FullTime</T> <P>|</P> <T>Consulting</T>
+                {'    '}OpenTo       <P>=</P> <T>Consulting</T>
                 {'\n'}
                 <P>{'};'}</P>
                 <span className="caret" aria-hidden="true" />
