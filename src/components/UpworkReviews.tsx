@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Section from './Section'
 import { links, upworkReviews } from '../data/profile'
+import { noteStyle } from '../utils/stickyNote'
 
 const STAR = 'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'
 
@@ -60,18 +61,19 @@ export default function UpworkReviews() {
                 aria-hidden={i !== index}
                 className="w-full shrink-0 px-0.5"
               >
-                <div className="glow-card h-full rounded-2xl border border-line bg-panel p-6 sm:p-8">
+                <div className="glow-card whiteboard h-full p-6 sm:p-8">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <Stars rating={review.rating} />
                     <p className="font-mono text-xs font-medium text-vio">{review.period}</p>
                   </div>
                   <h3 className="mt-3 text-lg font-bold">{review.project}</h3>
                   {review.endorsements.length > 0 && (
-                    <ul className="mt-3 flex flex-wrap gap-1.5">
+                    <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-4">
                       {review.endorsements.map((tag) => (
                         <li
                           key={tag}
-                          className="rounded-full border border-line bg-panel-2 px-2.5 py-0.5 text-[11px] font-medium text-mut"
+                          style={noteStyle(tag)}
+                          className="sticky-note px-2.5 py-1.5 text-[11px] font-medium"
                         >
                           ✓ {tag}
                         </li>

@@ -10,7 +10,7 @@ export default function Education() {
           <div
             key={item.degree}
             onMouseMove={cardGlow}
-            className="glow-card reveal flex items-start gap-4 rounded-2xl border border-line bg-panel p-6 transition-all hover:-translate-y-1 hover:border-vio/40 hover:shadow-lg hover:shadow-[color-mix(in_srgb,var(--g2)_12%,transparent)]"
+            className="glow-card whiteboard reveal flex items-start gap-4 p-6 transition-transform hover:-translate-y-1"
           >
             <span className="bg-grad flex size-11 shrink-0 items-center justify-center rounded-xl text-white shadow-md">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

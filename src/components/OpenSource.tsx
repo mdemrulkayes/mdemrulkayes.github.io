@@ -1,6 +1,7 @@
 import Section from './Section'
 import { openSource } from '../data/profile'
 import { cardGlow } from '../hooks/usePointerGlow'
+import { noteStyle } from '../utils/stickyNote'
 
 export default function OpenSource() {
   return (
@@ -13,13 +14,24 @@ export default function OpenSource() {
             target="_blank"
             rel="noreferrer"
             onMouseMove={cardGlow}
-            className="glow-card reveal group flex flex-col rounded-2xl border border-line bg-panel p-5 transition-all hover:-translate-y-1 hover:border-vio/40 hover:shadow-lg hover:shadow-[color-mix(in_srgb,var(--g2)_12%,transparent)]"
+            className="glow-card whiteboard reveal group flex flex-col p-5 transition-transform hover:-translate-y-1"
           >
             <h3 className="font-mono text-sm font-bold text-fg transition-colors group-hover:text-vio">
               {repo.name} <span aria-hidden="true">↗</span>
             </h3>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-mut">{repo.description}</p>
-            <p className="mt-4 flex items-center gap-1.5 font-mono text-xs text-mut">
+            <ul className="mt-5 flex flex-wrap gap-x-2.5 gap-y-4">
+              {repo.stack.map((tech) => (
+                <li
+                  key={tech}
+                  style={noteStyle(tech)}
+                  className="sticky-note px-2.5 py-1.5 font-mono text-[11px] font-medium"
+                >
+                  {tech}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 flex items-center gap-1.5 font-mono text-xs text-mut">
               <span className="size-2.5 rounded-full bg-[#178600]" aria-hidden="true" />
               {repo.language}
             </p>

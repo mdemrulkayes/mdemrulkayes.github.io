@@ -2,43 +2,70 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* semantic tokens — light theme */
+/* one hue drives every accent — change this to retheme the whole site */
 :root {
-  --c-ink: #f7f7fd;
-  --c-panel: #ffffff;
-  --c-panel-2: #f1f1fa;
-  --c-line: #e4e4f0;
-  --c-fg: #17172b;
-  --c-mut: #545470;
-  --c-faint: #8d8da8;
-  --c-accent: #7c3aed;
+  --hue: 255;
+}
 
-  --g1: #4f46e5;
-  --g2: #9333ea;
-  --g3: #db2777;
+/* semantic tokens — light theme (warm off-white) */
+:root {
+  --c-ink: oklch(0.975 0.005 90); /* background */
+  --c-panel: oklch(0.995 0.002 90); /* card */
+  --c-panel-2: oklch(0.945 0.006 90); /* chip */
+  --c-line: oklch(0.89 0.008 90); /* border */
+  --c-fg: oklch(0.23 0.015 260); /* text */
+  --c-mut: oklch(0.5 0.015 260); /* muted text */
+  --c-faint: oklch(0.68 0.012 260);
+  --c-accent: oklch(0.54 0.16 var(--hue));
+  --accent-soft: oklch(0.93 0.045 var(--hue));
+
+  /* gradient sweep around the base hue (buttons, headings) */
+  --g1: oklch(0.58 0.17 calc(var(--hue) - 15));
+  --g2: oklch(0.55 0.19 calc(var(--hue) + 25));
+  --g3: oklch(0.56 0.2 calc(var(--hue) + 65));
+
+  /* C# code card — follows the light scheme */
+  --code-bg: oklch(0.97 0.006 var(--hue));
+  --code-border: oklch(0.89 0.008 90);
+  --code-fg: oklch(0.28 0.015 260);
+  --code-dim: oklch(0.55 0.015 260);
+  --code-key: oklch(0.5 0.18 290);
+  --code-type: oklch(0.5 0.14 240);
+  --code-str: oklch(0.48 0.13 150);
+  --code-num: oklch(0.55 0.13 60);
 
   --glow-alpha: 8%;
-  --grid-dot: rgba(99, 102, 241, 0.22);
+  --grid-dot: oklch(0.54 0.16 var(--hue) / 0.18);
   --blob-alpha: 0.28;
 }
 
-/* dark theme */
+/* dark theme (near-black navy) */
 .dark {
-  --c-ink: #0c0c14;
-  --c-panel: #13131e;
-  --c-panel-2: #181826;
-  --c-line: #252538;
-  --c-fg: #e8e8f4;
-  --c-mut: #9b9bb4;
-  --c-faint: #636382;
-  --c-accent: #a78bfa;
+  --c-ink: oklch(0.16 0.018 265); /* background */
+  --c-panel: oklch(0.2 0.02 265); /* card */
+  --c-panel-2: oklch(0.23 0.022 265); /* chip */
+  --c-line: oklch(0.29 0.02 265); /* border */
+  --c-fg: oklch(0.93 0.008 90); /* text */
+  --c-mut: oklch(0.66 0.02 260); /* muted text */
+  --c-faint: oklch(0.5 0.02 260);
+  --c-accent: oklch(0.75 0.13 var(--hue));
+  --accent-soft: oklch(0.27 0.05 var(--hue));
 
-  --g1: #818cf8;
-  --g2: #c084fc;
-  --g3: #f472b6;
+  --g1: oklch(0.72 0.14 calc(var(--hue) - 15));
+  --g2: oklch(0.7 0.16 calc(var(--hue) + 25));
+  --g3: oklch(0.7 0.17 calc(var(--hue) + 65));
+
+  --code-bg: oklch(0.18 0.02 265);
+  --code-border: oklch(0.29 0.02 265);
+  --code-fg: oklch(0.93 0.008 90);
+  --code-dim: oklch(0.6 0.02 260);
+  --code-key: oklch(0.78 0.13 290);
+  --code-type: oklch(0.8 0.11 230);
+  --code-str: oklch(0.82 0.13 150);
+  --code-num: oklch(0.82 0.12 70);
 
   --glow-alpha: 7%;
-  --grid-dot: rgba(160, 140, 255, 0.16);
+  --grid-dot: oklch(0.75 0.13 var(--hue) / 0.16);
   --blob-alpha: 0.2;
 }
 
@@ -51,6 +78,7 @@
   --color-mut: var(--c-mut);
   --color-faint: var(--c-faint);
   --color-vio: var(--c-accent);
+  --color-accent-soft: var(--accent-soft);
 }
 
 @theme {
@@ -194,6 +222,80 @@ body {
   }
 }
 
+/* ---- Skills whiteboard ---- */
+/* the board surface: graph-paper grid, rounded frame, soft inner shadow */
+.whiteboard {
+  --board-bg: oklch(0.99 0.003 90);
+  --board-line: oklch(0.55 0.02 260 / 0.08);
+  --board-frame: oklch(0.86 0.01 90);
+  position: relative;
+  border-radius: 1.25rem;
+  border: 1px solid var(--board-frame);
+  background-color: var(--board-bg);
+  background-image:
+    linear-gradient(var(--board-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--board-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  box-shadow:
+    inset 0 2px 18px color-mix(in srgb, var(--c-fg) 8%, transparent),
+    inset 0 0 0 6px color-mix(in srgb, var(--board-bg) 70%, transparent);
+}
+.dark .whiteboard {
+  --board-bg: oklch(0.18 0.02 265);
+  --board-line: oklch(0.75 0.03 260 / 0.06);
+  --board-frame: oklch(0.32 0.02 265);
+  box-shadow:
+    inset 0 2px 22px oklch(0 0 0 / 0.35),
+    inset 0 0 0 6px color-mix(in srgb, var(--board-bg) 70%, transparent);
+}
+
+/* group label — marker-style underline written on the board */
+.board-label {
+  position: relative;
+  display: inline-block;
+}
+.board-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--g1), var(--g2), var(--g3));
+  opacity: 0.55;
+}
+
+/* individual sticky note — colour + tilt driven by --note-shift / --rot */
+.sticky-note {
+  --note-shift: 0;
+  --rot: 0deg;
+  --note-bg: oklch(0.91 0.085 calc(var(--hue) + var(--note-shift)));
+  --note-fg: oklch(0.3 0.04 calc(var(--hue) + var(--note-shift)));
+  position: relative;
+  border-radius: 3px;
+  background-color: var(--note-bg);
+  color: var(--note-fg);
+  transform: rotate(var(--rot));
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.06),
+    0 6px 12px -6px color-mix(in srgb, var(--c-fg) 40%, transparent);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.sticky-note:hover {
+  transform: rotate(0deg) translateY(-4px) scale(1.03);
+  z-index: 2;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.08),
+    0 16px 26px -10px color-mix(in srgb, var(--c-fg) 55%, transparent);
+}
+.dark .sticky-note {
+  --note-bg: oklch(0.35 0.06 calc(var(--hue) + var(--note-shift)));
+  --note-fg: oklch(0.95 0.02 calc(var(--hue) + var(--note-shift)));
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -210,5 +312,11 @@ body {
   }
   .glow-card::before {
     display: none;
+  }
+  .sticky-note {
+    transition: none;
+  }
+  .sticky-note:hover {
+    transform: rotate(var(--rot));
   }
 }

@@ -12,25 +12,21 @@ import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import BackToTop from './components/BackToTop'
-import { usePointerGlow } from './hooks/usePointerGlow'
 
 export default function App() {
-  usePointerGlow('#glow-layer')
-
   return (
     <>
-      {/* page-wide cursor glow */}
-      <div
-        id="glow-layer"
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0"
-        style={{
-          background:
-            'radial-gradient(560px circle at var(--mx, 50%) var(--my, 30%), color-mix(in srgb, var(--g2) var(--glow-alpha), transparent), transparent 65%)',
-        }}
-      />
       <Nav />
       <GlobalFX />
+      {/* readability scrim: calms the 3D background under the central text column, stays clear at the edges */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[5]"
+        style={{
+          background:
+            'radial-gradient(ellipse 58% 92% at 50% 45%, color-mix(in srgb, var(--color-ink) 78%, transparent), transparent 72%)',
+        }}
+      />
       <ScrollIdentity />
       <main className="relative z-10">
         <Hero />

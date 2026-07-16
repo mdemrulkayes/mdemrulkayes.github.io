@@ -2,12 +2,12 @@ import type { ReactNode } from 'react'
 import avatar from '../assets/avatar.webp'
 import { useReveal } from '../hooks/useReveal'
 
-/* syntax-highlight helpers for the C# card (card stays dark in both themes) */
-const K = ({ children }: { children: ReactNode }) => <span className="text-[#c0a8ff]">{children}</span>
-const T = ({ children }: { children: ReactNode }) => <span className="text-[#7dd3fc]">{children}</span>
-const S = ({ children }: { children: ReactNode }) => <span className="text-[#86efac]">{children}</span>
-const N = ({ children }: { children: ReactNode }) => <span className="text-[#f4bf75]">{children}</span>
-const P = ({ children }: { children: ReactNode }) => <span className="text-[#8a8aa3]">{children}</span>
+/* syntax-highlight helpers for the C# card (colors follow the theme via --code-* tokens) */
+const K = ({ children }: { children: ReactNode }) => <span className="text-[var(--code-key)]">{children}</span>
+const T = ({ children }: { children: ReactNode }) => <span className="text-[var(--code-type)]">{children}</span>
+const S = ({ children }: { children: ReactNode }) => <span className="text-[var(--code-str)]">{children}</span>
+const N = ({ children }: { children: ReactNode }) => <span className="text-[var(--code-num)]">{children}</span>
+const P = ({ children }: { children: ReactNode }) => <span className="text-[var(--code-dim)]">{children}</span>
 
 const stats = [
   { value: '10+', label: 'years shipping .NET' },
@@ -63,6 +63,16 @@ export default function Hero() {
             >
               Get in Touch
             </a>
+            <a
+              href="/Emrul_Kayes_Resume.pdf"
+              download
+              className="inline-flex items-center gap-2 rounded-lg border border-line bg-panel px-6 py-3 text-sm font-semibold text-fg transition-colors hover:border-vio/60 hover:text-vio"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+              </svg>
+              Resume
+            </a>
           </div>
 
           <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4">
@@ -77,14 +87,14 @@ export default function Hero() {
         </div>
 
         <div className="reveal">
-          <div className="glow-card rounded-2xl border border-[#252538] bg-[#13131e] shadow-2xl shadow-black/30">
-            <div className="flex items-center gap-2 border-b border-[#252538] px-4 py-3">
+          <div className="glow-card rounded-2xl border border-[var(--code-border)] bg-[var(--code-bg)] shadow-2xl shadow-black/30">
+            <div className="flex items-center gap-2 border-b border-[var(--code-border)] px-4 py-3">
               <span className="size-3 rounded-full bg-[#ff5f57]" />
               <span className="size-3 rounded-full bg-[#febc2e]" />
               <span className="size-3 rounded-full bg-[#28c840]" />
-              <span className="ml-3 font-mono text-xs text-[#8a8aa3]">Engineer.cs</span>
+              <span className="ml-3 font-mono text-xs text-[var(--code-dim)]">Engineer.cs</span>
             </div>
-            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-[#e8e8f4]">
+            <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-[var(--code-fg)]">
               <code>
                 <K>var</K> engineer <P>=</P> <K>new</K> <T>StaffEngineer</T>
                 {'\n'}
